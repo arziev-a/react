@@ -1,0 +1,13 @@
+.App {
+  display: flex;
+  width: 40%;
+  margin: auto;
+  border: 1px solid greenyellow;
+}
+
+.card {
+  border: 1px solid black;
+  padding: 20px;
+  margin: 30px;
+  text-align: center;
+}
