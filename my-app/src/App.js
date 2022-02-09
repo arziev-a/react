@@ -5,7 +5,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-
+  
     }; 
   }
   
@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        hello
+        Hello
       </div>
     )
   }
