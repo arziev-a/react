@@ -8,7 +8,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <div className="App">Hello</div>;
+    return <div className="container">Hello</div>;
   }
 }
 
