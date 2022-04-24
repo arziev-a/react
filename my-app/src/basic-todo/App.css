@@ -1,0 +1,93 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  background-image: linear-gradient(80deg, #2fbfc7, #19406d);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Nunito", sans-serif;
+}
+
+.searchInput {
+  display: flex;
+  margin-top: 20px;
+}
+
+.searchInput input {
+  background-color: white;
+  border: 0;
+  border-radius: 2px;
+  font-size: 18px;
+  height: 60px;
+  width: 300px;
+  padding: 15px;
+}
+
+.searchIcon {
+  height: 60px;
+  width: 50px;
+  background-color: white;
+  display: grid;
+  place-items: center;
+}
+
+.searchIcon svg {
+  font-size: 35px;
+  color: #1e5e82;
+}
+
+.searchIcon svg:hover {
+  color: white;
+  background-color: #19406d;
+  transition: 0.5s ease-out;
+  cursor: pointer;
+}
+
+input:focus {
+  outline: none;
+}
+
+.toDoAdded {
+  display: block;
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  background-color: lightsteelblue;
+  border: 0;
+  border-radius: 2px;
+  font-size: 18px;
+  height: 60px;
+  width: 300px;
+  padding: 15px;
+  margin: 20px;
+}
+
+.icon {
+  display: grid;
+  /* place-items: center; */
+  height: 60px;
+  width: 50px;
+}
+.icon svg {
+  font-size: 30px;
+  color: #1e5e82;
+  margin-left: 20px;
+}
+
+.icon svg:hover {
+  color: red;
+  /* background-color: #19406d; */
+  transition: 0.5s ease-out;
+  cursor: pointer;
+}
+
+span {
+  padding-right: 10px;
+}
