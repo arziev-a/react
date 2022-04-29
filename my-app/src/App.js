@@ -1,104 +1,110 @@
 import "./App.css";
 import React from "react";
-import BasicCard from "./Card";
-import LinearIndeterminate from "./loading";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-
-const url = "https://jsonplaceholder.typicode.com/users";
+import { Input, InputGroup } from "reactstrap";
+import Paging from "./pagin";
+import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       data: [],
-      lodading: true,
-      filteredData: [],
-      modalStatus: false,
+      imgHeader: "https://image.tmdb.org/t/p/w185/",
+      loading: false,
+      searchString: "",
+      dropDownVal: 0,
+      defaultPage: 1,
     };
   }
+
   componentDidMount() {
-    setTimeout(() => {
-      const datafetch = fetch(url)
-        .then((res) => res.json())
-        .then((data) => this.setState({ data: data, lodading: false }));
-    }, 3000);
+    this.fetchData();
   }
 
-  handleClick = (index) => {
-    const filtered = this.state.data.filter((item, pos) => index === pos);
-    console.log(filtered);
-    this.setState({ filteredData: filtered, modalStatus: true });
+  fetchData = () => {
+    const url = `https://api.themoviedb.org/3/person/popular?api_key=df8b08ecb436696fee41a00f8d87a540&language=en&page=${this.state.defaultPage}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => this.setState({ data: data.results, loading: true }));
   };
-  handleClose = () => {
-    console.log("from handleClose");
+
+  handleChange = (e) => {
+    this.setState({ searchString: e.target.value });
+  };
+
+  handleDropDown = (e) => {
+    this.setState({ dropDownVal: e.target.value });
+  };
+
+  handlePage = (number) => {
+    this.setState({ defaultPage: number }, () => {
+      this.fetchData();
+    });
   };
 
   render() {
-    const style = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    };
-    const { filteredData } = this.state;
-    const modal = (filteredData) => {
-      return (
-        <>
-          <Modal
-            open={true}
-            onClose={false}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
-          </Modal>
-        </>
-      );
-    };
-    const showItems = (fetchedData) => {
-      return (
-        <>
-          {fetchedData.map((item, index) => {
-            return (
-              <div key={index}>
-                <BasicCard
-                  name={item.name}
-                  username={item.username}
-                  email={item.email}
-                  id={index}
-                  handleClick={this.handleClick}
-                />
-              </div>
-            );
-          })}
-        </>
-      );
-    };
+    const { data, loading, imgHeader, searchString, dropDownVal, defaultPage } =
+      this.state;
+    let dropDownFiltered;
+    if (dropDownVal > 0) {
+      dropDownFiltered = data.filter((movie) => movie.gender === dropDownVal);
+    } else {
+      dropDownFiltered = data;
+    }
+    const filtered = dropDownFiltered.filter((name) =>
+      name.name.toLowerCase().includes(searchString.toLocaleLowerCase())
+    );
 
     return (
       <div className="App">
-        {this.state.lodading ? (
-          <LinearIndeterminate />
-        ) : (
-          showItems(this.state.data)
-        )}
+        <div className="m-5">
+          <Paging handlePage={this.handlePage} defaultPage={defaultPage} />
+        </div>
+        <div className="m-3">
+          <InputGroup>
+            <Input
+              placeholder="username"
+              onChange={this.handleChange}
+              value={searchString}
+            />
+          </InputGroup>
+          <div className="d-flex justify-content-center p-5">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={dropDownVal}
+                label="Age"
+                onChange={this.handleDropDown}
+              >
+                <MenuItem value={0}>All</MenuItem>
+                <MenuItem value={1}>Female</MenuItem>
+                <MenuItem value={2}>Male</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
 
-        {modal(filteredData)}
+        <div className="movies">
+          {loading
+            ? filtered.map((movieStar) => {
+                const knownForDetail = movieStar.known_for.map(
+                  (title) => title.title
+                );
+                return (
+                  <div className="movie" key={movieStar.id}>
+                    <img
+                      src={`${imgHeader}${movieStar.profile_path}`}
+                      alt={movieStar.name}
+                    />
+                    <div>{movieStar.name}</div>
+                    <div className="known-for">{knownForDetail.join(",")}</div>
+                  </div>
+                );
+              })
+            : "Loading..."}
+        </div>
       </div>
     );
   }
