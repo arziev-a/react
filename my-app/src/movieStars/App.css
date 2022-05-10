@@ -1,0 +1,36 @@
+.App {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  flex-direction: column;
+}
+
+.movies {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie {
+  width: 18%;
+  display: inline-block;
+  margin: 15px 15px 0 0;
+}
+
+.known-for {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.known-poster {
+  width: 60px;
+}
+
+.flex {
+  display: flex;
+}
