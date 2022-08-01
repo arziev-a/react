@@ -1,0 +1,35 @@
+body {
+  background-color: darkgray;
+}
+img {
+  width: 100px;
+}
+
+.main-container {
+  max-width: 600px;
+  margin: auto;
+  z-index: 10;
+  background-color: white;
+}
+
+div {
+  text-align: center;
+}
+
+.plus {
+  width: 30px;
+}
+
+.navbar {
+  height: 65px;
+  width: 100%;
+  background-color: rgb(66 112 96);
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+}
